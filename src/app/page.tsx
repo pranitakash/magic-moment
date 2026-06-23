@@ -1,101 +1,17 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { tours, formatPrice } from "@/data/tours";
 
 /* ─────────────── DATA ─────────────── */
-const tours = [
-  {
-    id: 1,
-    slug: "manali-mountain-escape",
-    title: "Manali — Mountain Escape",
-    tags: ["snow trek", "river rafting", "cafe hopping"],
-    desc: "Pine forests, snow peaks and Old Manali's laid-back cafe scene.",
-    days: 6,
-    persons: 2,
-    priceOld: 18500,
-    priceNew: 15200,
-    image: "/images/tour-manali.png",
-    icons: ["🏔️", "🛶"],
-  },
-  {
-    id: 2,
-    slug: "sissu-beyond-the-tunnel",
-    title: "Sissu — Beyond the Tunnel",
-    tags: ["lake views", "camping", "stargazing"],
-    desc: "Crystal-clear lakes and snow peaks just past Atal Tunnel, far from the crowds.",
-    days: 3,
-    persons: 2,
-    priceOld: null,
-    priceNew: 9800,
-    image: "/images/tour-sissu.png",
-    icons: ["⛺", "✨"],
-  },
-  {
-    id: 3,
-    slug: "kasol-parvati-valley-trail",
-    title: "Kasol — Parvati Valley Trail",
-    tags: ["village trekking", "riverside cafes", "forest camping"],
-    desc: "Wander cafe-lined lanes and pine trails along the Parvati river.",
-    days: 5,
-    persons: 1,
-    priceOld: 13000,
-    priceNew: 10500,
-    image: "/images/tour-kasol.png",
-    icons: ["🌲", "☕"],
-  },
-  {
-    id: 4,
-    slug: "valley-of-flowers-bloom-trek",
-    title: "Valley of Flowers — Bloom Trek",
-    tags: ["high-altitude trek", "alpine meadows", "wildlife"],
-    desc: "A UNESCO meadow bursting with rare Himalayan blooms, open only a few months a year.",
-    days: 6,
-    persons: 2,
-    priceOld: null,
-    priceNew: 16800,
-    image: "/images/tour-valley-flowers.png",
-    icons: ["🌸", "🦋"],
-  },
-  {
-    id: 5,
-    slug: "rishikesh-river-yoga-retreat",
-    title: "Rishikesh — River & Yoga Retreat",
-    tags: ["white-water rafting", "yoga", "ganga aarti"],
-    desc: "Raft the rapids by day, find stillness by the Ganga at sunset.",
-    days: 4,
-    persons: 1,
-    priceOld: 9500,
-    priceNew: 7900,
-    image: "/images/tour-rishikesh.png",
-    icons: ["🧘", "🌊"],
-  },
-  {
-    id: 6,
-    slug: "jibhi-hidden-tirthan-valley",
-    title: "Jibhi — Hidden Tirthan Valley",
-    tags: ["waterfall trek", "trout fishing", "village stay"],
-    desc: "An undiscovered valley of wooden cottages, waterfalls and slow mountain mornings.",
-    days: 3,
-    persons: 2,
-    priceOld: null,
-    priceNew: 8200,
-    image: "/images/tour-jibhi.png",
-    icons: ["🏡", "🐟"],
-  },
-];
-
 const stats = [
   { number: "18,50,000+", label: "Kilometres Trekked" },
   { number: "5,000+", label: "Happy Travelers" },
   { number: "320+", label: "Five-Star Reviews" },
   { number: "8", label: "Years on the Trail" },
 ];
-
-/* ─────────────── HELPERS ─────────────── */
-function formatPrice(n: number) {
-  return "₹" + n.toLocaleString("en-IN");
-}
 
 /* ─────────────── SVG Icons ─────────────── */
 function SearchIcon() {
@@ -160,6 +76,84 @@ function WhatsAppIcon() {
   );
 }
 
+function InstagramIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+    </svg>
+  );
+}
+
+function FacebookIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+    </svg>
+  );
+}
+
+function YouTubeIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+    </svg>
+  );
+}
+
+function TwitterIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
+  );
+}
+
+function PhoneIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+    </svg>
+  );
+}
+
+function MailIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+      <polyline points="22,6 12,13 2,6" />
+    </svg>
+  );
+}
+
+function MapPinIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+      <circle cx="12" cy="10" r="3" />
+    </svg>
+  );
+}
+
+function ClockIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <polyline points="12 6 12 12 16 14" />
+    </svg>
+  );
+}
+
+function SendIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="22" y1="2" x2="11" y2="13" />
+      <polygon points="22 2 15 22 11 13 2 9 22 2" />
+    </svg>
+  );
+}
+
 function MountainSvg({ className }: { className?: string }) {
   return (
     <svg className={className} width="40" height="28" viewBox="0 0 40 28" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -194,10 +188,61 @@ function useInView(threshold = 0.15) {
    MAIN PAGE
    ═══════════════════════════════════════════ */
 export default function Home() {
+  const router = useRouter();
   const [activeDot, setActiveDot] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
   const [carouselIndex, setCarouselIndex] = useState(0);
   const maxIndex = tours.length - 3;
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearch = () => {
+    const params = new URLSearchParams();
+    if (searchQuery.trim()) params.set("q", searchQuery.trim());
+    router.push(`/tours${params.toString() ? "?" + params.toString() : ""}`);
+  };
+
+  /* Contact form state */
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    destination: "",
+    travelers: "",
+    message: "",
+  });
+  const [formSending, setFormSending] = useState(false);
+
+  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormSending(true);
+
+    // Build a personalized WhatsApp message
+    const whatsappNumber = "919876543210"; // TODO: Replace with your actual WhatsApp number
+    const greeting = `Hi Magic Moment! 🏔️`;
+    const intro = `I'm *${formData.name}* and I'd love to plan a trip with you!`;
+    const details = [
+      formData.email ? `📧 Email: ${formData.email}` : "",
+      formData.phone ? `📱 Phone: ${formData.phone}` : "",
+      formData.destination ? `📍 Interested in: *${formData.destination}*` : "",
+      formData.travelers ? `👥 Travelers: ${formData.travelers}` : "",
+    ].filter(Boolean).join("\n");
+    const msg = formData.message ? `\n💬 Message:\n${formData.message}` : "";
+    const closing = `\nLooking forward to hearing from you! ✨`;
+
+    const fullMessage = `${greeting}\n\n${intro}\n\n${details}${msg}\n${closing}`;
+    const encodedMessage = encodeURIComponent(fullMessage);
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+
+    window.open(whatsappUrl, "_blank");
+
+    setTimeout(() => {
+      setFormSending(false);
+    }, 1500);
+  };
 
   const scrollCarousel = (dir: number) => {
     const next = Math.max(0, Math.min(carouselIndex + dir, maxIndex));
@@ -217,6 +262,7 @@ export default function Home() {
   const specialRef = useInView();
   const statsRef = useInView();
   const destRef = useInView();
+  const contactRef = useInView();
 
   return (
     <>
@@ -225,7 +271,7 @@ export default function Home() {
         <div className="header-inner">
           <a href="/" className="logo">Magic moment</a>
           <nav className="nav-links">
-            <a href="#tours">Tours</a>
+            <a href="/tours">Tours</a>
             <a href="#destinations">Destinations</a>
             <a href="#about">About Us</a>
             <a href="#blog">Blog</a>
@@ -273,15 +319,24 @@ export default function Home() {
 
       {/* ──── SEARCH WIDGET ──── */}
       <div className="search-widget container" id="search">
-        <div className="search-bar">
+        <form
+          className="search-bar"
+          onSubmit={(e) => { e.preventDefault(); handleSearch(); }}
+        >
           <SearchIcon />
-          <input className="search-input" type="text" placeholder="Enter tour name" />
+          <input
+            className="search-input"
+            type="text"
+            placeholder="Enter tour name"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
           <span className="search-divider" />
           <span className="search-date">
             <CalendarIcon /> &nbsp;Select dates
           </span>
-          <button className="search-btn">SEARCH TOURS</button>
-        </div>
+          <button type="submit" className="search-btn">SEARCH TOURS</button>
+        </form>
       </div>
 
       {/* ──── SPECIAL FOR YOU ──── */}
@@ -293,7 +348,7 @@ export default function Home() {
       >
         <div className="section-header">
           <h2>Special for you</h2>
-          <a href="#" className="all-tours-link">
+          <a href="/tours" className="all-tours-link">
             all tours <ArrowRight />
           </a>
         </div>
@@ -465,13 +520,240 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ──── CONTACT SECTION ──── */}
+      <section
+        className="contact-section"
+        id="contact"
+        ref={contactRef.ref}
+        style={{
+          opacity: contactRef.isVisible ? 1 : 0,
+          transform: contactRef.isVisible ? 'translateY(0)' : 'translateY(40px)',
+          transition: 'opacity 0.8s ease, transform 0.8s ease',
+        }}
+      >
+        <div className="contact-inner container">
+          {/* Section Header */}
+          <div className="contact-header">
+            <span className="contact-eyebrow">GET IN TOUCH</span>
+            <h2 className="contact-title">Let&apos;s Plan Your Adventure</h2>
+            <p className="contact-subtitle">
+              Have a question or ready to book your dream Himalayan getaway?
+              Fill in the form and we&apos;ll get back to you via WhatsApp instantly.
+            </p>
+          </div>
+
+          <div className="contact-grid">
+            {/* Left: Contact Form */}
+            <div className="contact-form-card">
+              <form onSubmit={handleFormSubmit} className="contact-form" id="contact-form">
+                <div className="form-row">
+                  <div className="form-group">
+                    <label htmlFor="contact-name">Full Name *</label>
+                    <input
+                      type="text"
+                      id="contact-name"
+                      name="name"
+                      placeholder="Your name"
+                      value={formData.name}
+                      onChange={handleFormChange}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="contact-email">Email</label>
+                    <input
+                      type="email"
+                      id="contact-email"
+                      name="email"
+                      placeholder="you@example.com"
+                      value={formData.email}
+                      onChange={handleFormChange}
+                    />
+                  </div>
+                </div>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label htmlFor="contact-phone">Phone *</label>
+                    <input
+                      type="tel"
+                      id="contact-phone"
+                      name="phone"
+                      placeholder="+91 98765 43210"
+                      value={formData.phone}
+                      onChange={handleFormChange}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="contact-travelers">No. of Travelers</label>
+                    <input
+                      type="number"
+                      id="contact-travelers"
+                      name="travelers"
+                      placeholder="e.g. 4"
+                      min="1"
+                      value={formData.travelers}
+                      onChange={handleFormChange}
+                    />
+                  </div>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="contact-destination">Preferred Destination</label>
+                  <select
+                    id="contact-destination"
+                    name="destination"
+                    value={formData.destination}
+                    onChange={handleFormChange}
+                  >
+                    <option value="">Select a destination</option>
+                    <option value="Manali">Manali — Mountain Escape</option>
+                    <option value="Sissu">Sissu — Beyond the Tunnel</option>
+                    <option value="Kasol">Kasol — Parvati Valley Trail</option>
+                    <option value="Valley of Flowers">Valley of Flowers — Bloom Trek</option>
+                    <option value="Rishikesh">Rishikesh — River & Yoga Retreat</option>
+                    <option value="Jibhi">Jibhi — Hidden Tirthan Valley</option>
+                    <option value="Custom">Custom / Not Sure Yet</option>
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="contact-message">Your Message</label>
+                  <textarea
+                    id="contact-message"
+                    name="message"
+                    placeholder="Tell us about your dream trip — dates, preferences, anything!"
+                    rows={4}
+                    value={formData.message}
+                    onChange={handleFormChange}
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className={`btn-submit-contact${formSending ? " sending" : ""}`}
+                  disabled={formSending}
+                  id="contact-submit"
+                >
+                  {formSending ? (
+                    <>Sending via WhatsApp…</>
+                  ) : (
+                    <>
+                      <WhatsAppIcon /> Send via WhatsApp
+                    </>
+                  )}
+                </button>
+              </form>
+            </div>
+
+            {/* Right: Contact Info */}
+            <div className="contact-info-side">
+              <div className="contact-info-card">
+                <div className="contact-info-icon">
+                  <PhoneIcon />
+                </div>
+                <div>
+                  <h4>Call Us</h4>
+                  <p>+91 98765 43210</p>
+                  <p className="contact-info-sub">Mon — Sat, 9 AM – 7 PM</p>
+                </div>
+              </div>
+              <div className="contact-info-card">
+                <div className="contact-info-icon">
+                  <MailIcon />
+                </div>
+                <div>
+                  <h4>Email Us</h4>
+                  <p>hello@magicmoment.in</p>
+                  <p className="contact-info-sub">We reply within 24 hours</p>
+                </div>
+              </div>
+              <div className="contact-info-card">
+                <div className="contact-info-icon">
+                  <MapPinIcon />
+                </div>
+                <div>
+                  <h4>Visit Us</h4>
+                  <p>Manali, Himachal Pradesh</p>
+                  <p className="contact-info-sub">India — 175131</p>
+                </div>
+              </div>
+              <div className="contact-info-card">
+                <div className="contact-info-icon">
+                  <ClockIcon />
+                </div>
+                <div>
+                  <h4>Office Hours</h4>
+                  <p>Mon – Sat: 9 AM – 7 PM</p>
+                  <p className="contact-info-sub">Sunday: Closed</p>
+                </div>
+              </div>
+
+              {/* Social Media */}
+              <div className="contact-socials">
+                <p className="socials-label">Follow Us</p>
+                <div className="socials-row">
+                  <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="Instagram" id="social-instagram">
+                    <InstagramIcon />
+                  </a>
+                  <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="Facebook" id="social-facebook">
+                    <FacebookIcon />
+                  </a>
+                  <a href="https://youtube.com/" target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="YouTube" id="social-youtube">
+                    <YouTubeIcon />
+                  </a>
+                  <a href="https://x.com/" target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="X (Twitter)" id="social-twitter">
+                    <TwitterIcon />
+                  </a>
+                  <a href="https://wa.me/919876543210" target="_blank" rel="noopener noreferrer" className="social-icon-link whatsapp" aria-label="WhatsApp" id="social-whatsapp">
+                    <WhatsAppIcon />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ──── FOOTER ──── */}
-      <footer className="footer" id="contact">
+      <footer className="footer">
         <div className="container">
-          <div className="footer-brand">Magic moment</div>
-          <p className="footer-text">
-            © {new Date().getFullYear()} Magic Moment. Handpicked Himalayan experiences.
-          </p>
+          <div className="footer-grid">
+            <div className="footer-col">
+              <div className="footer-brand">Magic moment</div>
+              <p className="footer-tagline">
+                Handpicked Himalayan treks & getaways. Making every moment magical since 2018.
+              </p>
+              <div className="footer-socials">
+                <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><InstagramIcon /></a>
+                <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><FacebookIcon /></a>
+                <a href="https://youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><YouTubeIcon /></a>
+                <a href="https://x.com/" target="_blank" rel="noopener noreferrer" aria-label="X"><TwitterIcon /></a>
+              </div>
+            </div>
+            <div className="footer-col">
+              <h4 className="footer-col-title">Quick Links</h4>
+              <a href="#tours">Tours</a>
+              <a href="#destinations">Destinations</a>
+              <a href="#contact">Contact Us</a>
+              <a href="#about">About Us</a>
+            </div>
+            <div className="footer-col">
+              <h4 className="footer-col-title">Top Destinations</h4>
+              <a href="#">Manali</a>
+              <a href="#">Kasol</a>
+              <a href="#">Rishikesh</a>
+              <a href="#">Valley of Flowers</a>
+            </div>
+            <div className="footer-col">
+              <h4 className="footer-col-title">Contact</h4>
+              <a href="tel:+919876543210">+91 98765 43210</a>
+              <a href="mailto:hello@magicmoment.in">hello@magicmoment.in</a>
+              <a href="#">Manali, Himachal Pradesh</a>
+            </div>
+          </div>
+          <div className="footer-bottom">
+            <p className="footer-text">
+              © {new Date().getFullYear()} Magic Moment. All rights reserved. Handpicked Himalayan experiences.
+            </p>
+          </div>
         </div>
       </footer>
     </>
