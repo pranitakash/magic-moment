@@ -361,7 +361,10 @@ function ToursPageContent() {
       {/* ──── HEADER ──── */}
       <header className="header tours-header" id="header">
         <div className="header-inner">
-          <a href="/" className="logo">Magic moment</a>
+          <a href="/" className="logo" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <Image src="/PHOTO.png" alt="Magic Moment Logo" width={36} height={36} style={{ objectFit: 'contain' }} />
+            Magic moment
+          </a>
           <nav className="nav-links">
             <a href="/tours" className="active">Tours</a>
             <a href="/#destinations">Destinations</a>

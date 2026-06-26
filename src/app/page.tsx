@@ -314,9 +314,9 @@ function NewsletterPopup() {
             <h2>Get our Free Himachal Trek Calendar 2026</h2>
             <p>Plan your year of adventure. Discover the best times to visit every valley and peak.</p>
             <form onSubmit={handleSubmit} className="newsletter-form">
-              <input 
-                type="email" 
-                placeholder="Enter your email" 
+              <input
+                type="email"
+                placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -418,7 +418,10 @@ export default function Home() {
       {/* ──── HEADER ──── */}
       <header className="header" id="header">
         <div className="header-inner">
-          <a href="/" className="logo">Magic moment</a>
+          <a href="/" className="logo" style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+            <Image src="/PHOTO.png" alt="Magic Moment Logo" width={50} height={60} style={{ objectFit: 'contain' }} />
+            Magic moment
+          </a>
           <nav className="nav-links">
             <a href="/tours">Tours</a>
             <a href="#destinations">Destinations</a>
@@ -483,8 +486,8 @@ export default function Home() {
           <span className="search-divider" />
           <div className="search-date" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             <CalendarIcon />
-            <input 
-              type="date" 
+            <input
+              type="date"
               className="search-date-input"
               value={searchDate}
               onChange={(e) => setSearchDate(e.target.value)}
@@ -596,7 +599,7 @@ export default function Home() {
       <WhyUsSection />
 
       {/* ──── STATS ──── */}
-      <section
+      {/* <section
         className="stats-section container"
         id="stats"
         ref={statsRef.ref}
@@ -610,7 +613,7 @@ export default function Home() {
             </div>
           ))}
         </div>
-      </section>
+      </section> */}
 
       {/* ──── FAQ ──── */}
       <FaqAccordion />
@@ -890,7 +893,10 @@ export default function Home() {
         <div className="container">
           <div className="footer-grid">
             <div className="footer-col">
-              <div className="footer-brand">Magic moment</div>
+              <div className="footer-brand" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <Image src="/PHOTO.png" alt="Magic Moment Logo" width={36} height={36} style={{ objectFit: 'contain' }} />
+                Magic moment
+              </div>
               <p className="footer-tagline">
                 Handpicked Himalayan treks & getaways. Making every moment magical since 2018.
               </p>
