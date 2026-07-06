@@ -3,8 +3,9 @@
 import { useState, useMemo, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
-import { tours, formatPrice, allDestinations, allDifficulties, allTags } from "@/data/tours";
+import { tours, formatPrice, allDestinations, allStates, allDifficulties, allTags } from "@/data/tours";
 import type { Tour } from "@/data/tours";
+import { TourIcon, MapPinIcon, ClockIcon, FlameIcon, MountainEmptyIcon } from "@/components/TourIcons";
 
 /* ─────────── SVG ICONS ─────────── */
 function SearchIcon() {
@@ -103,11 +104,12 @@ function ToursPageContent() {
   const initialQuery = searchParams.get("q") || "";
 
   const [searchQuery, setSearchQuery] = useState(initialQuery);
+  const [selectedStates, setSelectedStates] = useState<string[]>([]);
   const [selectedDestinations, setSelectedDestinations] = useState<string[]>([]);
   const [selectedDifficulties, setSelectedDifficulties] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 20000]);
-  const [durationRange, setDurationRange] = useState<[number, number]>([1, 10]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 90000]);
+  const [durationRange, setDurationRange] = useState<[number, number]>([1, 15]);
   const [sortBy, setSortBy] = useState<SortKey>("default");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [showMobileFilters, setShowMobileFilters] = useState(false);
@@ -130,18 +132,20 @@ function ToursPageContent() {
   };
 
   const activeFilterCount =
+    selectedStates.length +
     selectedDestinations.length +
     selectedDifficulties.length +
     selectedTags.length +
-    (priceRange[0] > 0 || priceRange[1] < 20000 ? 1 : 0) +
-    (durationRange[0] > 1 || durationRange[1] < 10 ? 1 : 0);
+    (priceRange[0] > 0 || priceRange[1] < 90000 ? 1 : 0) +
+    (durationRange[0] > 1 || durationRange[1] < 15 ? 1 : 0);
 
   const clearAllFilters = () => {
+    setSelectedStates([]);
     setSelectedDestinations([]);
     setSelectedDifficulties([]);
     setSelectedTags([]);
-    setPriceRange([0, 20000]);
-    setDurationRange([1, 10]);
+    setPriceRange([0, 90000]);
+    setDurationRange([1, 15]);
     setSearchQuery("");
     setSortBy("default");
   };
@@ -170,8 +174,14 @@ function ToursPageContent() {
           t.title.toLowerCase().includes(q) ||
           t.desc.toLowerCase().includes(q) ||
           t.destination.toLowerCase().includes(q) ||
+          t.state.toLowerCase().includes(q) ||
           t.tags.some((tag) => tag.toLowerCase().includes(q))
       );
+    }
+
+    // State filter
+    if (selectedStates.length > 0) {
+      result = result.filter((t) => selectedStates.includes(t.state));
     }
 
     // Destination filter
@@ -212,7 +222,7 @@ function ToursPageContent() {
     }
 
     return result;
-  }, [searchQuery, selectedDestinations, selectedDifficulties, selectedTags, priceRange, durationRange, sortBy]);
+  }, [searchQuery, selectedStates, selectedDestinations, selectedDifficulties, selectedTags, priceRange, durationRange, sortBy]);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -254,6 +264,22 @@ function ToursPageContent() {
         </form>
       </div>
 
+      {/* State / Region */}
+      <div className="filter-group">
+        <label className="filter-label">State / Region</label>
+        <div className="filter-chips">
+          {allStates.map((state) => (
+            <button
+              key={state}
+              className={`filter-chip${selectedStates.includes(state) ? " active" : ""}`}
+              onClick={() => toggleFilter(selectedStates, setSelectedStates, state)}
+            >
+              {state}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* Destination */}
       <div className="filter-group">
         <label className="filter-label">Destination</label>
@@ -286,32 +312,6 @@ function ToursPageContent() {
         </div>
       </div>
 
-      {/* Price Range */}
-      <div className="filter-group">
-        <label className="filter-label">
-          Price Range
-          <span className="filter-value">{formatPrice(priceRange[0])} — {formatPrice(priceRange[1])}</span>
-        </label>
-        <div className="range-inputs">
-          <input
-            type="range"
-            min={0}
-            max={20000}
-            step={500}
-            value={priceRange[0]}
-            onChange={(e) => setPriceRange([Math.min(Number(e.target.value), priceRange[1] - 500), priceRange[1]])}
-          />
-          <input
-            type="range"
-            min={0}
-            max={20000}
-            step={500}
-            value={priceRange[1]}
-            onChange={(e) => setPriceRange([priceRange[0], Math.max(Number(e.target.value), priceRange[0] + 500)])}
-          />
-        </div>
-      </div>
-
       {/* Duration Range */}
       <div className="filter-group">
         <label className="filter-label">
@@ -322,7 +322,7 @@ function ToursPageContent() {
           <input
             type="range"
             min={1}
-            max={10}
+            max={15}
             step={1}
             value={durationRange[0]}
             onChange={(e) => setDurationRange([Math.min(Number(e.target.value), durationRange[1] - 1), durationRange[1]])}
@@ -330,7 +330,7 @@ function ToursPageContent() {
           <input
             type="range"
             min={1}
-            max={10}
+            max={15}
             step={1}
             value={durationRange[1]}
             onChange={(e) => setDurationRange([durationRange[0], Math.max(Number(e.target.value), durationRange[0] + 1)])}
@@ -390,7 +390,7 @@ function ToursPageContent() {
             {searchQuery ? `Results for "${searchQuery}"` : "Our Tours & Treks"}
           </h1>
           <p className="tours-hero-sub">
-            Handpicked Himalayan experiences — from gentle village walks to high-altitude adventures.
+            Handpicked experiences across India & Nepal — from serene backwaters to high-altitude adventures.
           </p>
         </div>
       </section>
@@ -455,7 +455,7 @@ function ToursPageContent() {
         <section className="tours-content">
           {filteredTours.length === 0 ? (
             <div className="tours-empty">
-              <div className="tours-empty-icon">🏔️</div>
+              <div className="tours-empty-icon"><MountainEmptyIcon /></div>
               <h3>No tours found</h3>
               <p>Try adjusting your filters or search for something different.</p>
               <button className="btn-clear-all" onClick={clearAllFilters}>
@@ -548,8 +548,6 @@ function ToursPageContent() {
 
 /* ─────────── TOUR CARD ─────────── */
 function TourCard({ tour, viewMode, onCompareToggle, compareList }: { tour: Tour; viewMode: string; onCompareToggle: (tour: Tour) => void; compareList: Tour[] }) {
-  const isCompared = compareList.some((t) => t.id === tour.id);
-
   return (
     <article className={`tours-page-card ${viewMode}`} id={`tour-${tour.slug}`}>
       <div className="tours-page-card-image">
@@ -561,12 +559,9 @@ function TourCard({ tour, viewMode, onCompareToggle, compareList }: { tour: Tour
           style={{ objectFit: "cover", width: "100%", height: "100%" }}
         />
         <div className="tours-page-card-badges">
-          {tour.icons.map((ico, i) => (
-            <span className="badge" key={i}>{ico}</span>
+          {tour.iconKeys.map((key, i) => (
+            <span className="badge badge-icon" key={i}><TourIcon name={key} size={14} /></span>
           ))}
-          {tour.priceOld && (
-            <span className="badge-sale">SALE</span>
-          )}
         </div>
         <div className="tours-page-card-difficulty">
           <span className={`difficulty-tag ${tour.difficulty.toLowerCase()}`}>
@@ -590,37 +585,12 @@ function TourCard({ tour, viewMode, onCompareToggle, compareList }: { tour: Tour
             <UserIcon /> {tour.persons} Person
           </span>
           <span className="meta-item destination-meta">
-            📍 {tour.destination}
+            <MapPinIcon /> {tour.destination}
           </span>
         </div>
-        {(tour.spotsLeft || tour.urgencyMsg) && (
-          <div className="tour-urgency">
-            {tour.spotsLeft && <span className="urgency-spots">⏳ Only {tour.spotsLeft} {tour.spotsLeft === 1 ? 'spot' : 'spots'} left</span>}
-            {tour.urgencyMsg && <span className="urgency-msg">🔥 {tour.urgencyMsg}</span>}
-          </div>
-        )}
         <div className="tours-page-card-footer">
-          <div className="price-group">
-            {tour.priceOld ? (
-              <>
-                <span className="price-old">{formatPrice(tour.priceOld)}</span>
-                <span className="price-new">{formatPrice(tour.priceNew)}</span>
-              </>
-            ) : (
-              <span className="price-only">{formatPrice(tour.priceNew)}</span>
-            )}
-          </div>
-          <div className="card-actions" style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-            <label className="compare-checkbox-label" style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "0.75rem", cursor: "pointer" }}>
-              <input 
-                type="checkbox" 
-                checked={isCompared} 
-                onChange={() => onCompareToggle(tour)}
-              />
-              Compare
-            </label>
-            <a href={`/#contact`} className="btn-card-book">BOOK NOW</a>
-          </div>
+          <span className="tour-state-label">{tour.state}</span>
+          <a href={`/tours/${tour.slug}`} className="btn-card-book">VIEW DETAILS</a>
         </div>
       </div>
     </article>
