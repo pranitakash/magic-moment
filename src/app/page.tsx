@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { tours, formatPrice } from "@/data/tours";
+import { TourIcon, MapPinIcon, ClockIcon, FlameIcon } from "@/components/TourIcons";
 
 /* ─────────────── DATA ─────────────── */
 const stats = [
@@ -241,22 +242,44 @@ function WhyUsSection() {
       </div>
       <div className="why-us-grid">
         <div className="why-us-card">
-          <div className="why-us-icon">🛡️</div>
+          <div className="why-us-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              <path d="M9 12l2 2 4-4" />
+            </svg>
+          </div>
           <h3>SEBI-Insured Travel</h3>
           <p>Your peace of mind is guaranteed with our fully insured group travel packages.</p>
         </div>
         <div className="why-us-card">
-          <div className="why-us-icon">🗺️</div>
+          <div className="why-us-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+            </svg>
+          </div>
           <h3>Certified Local Guides</h3>
           <p>Explore hidden trails safely with our expert, certified local mountain guides.</p>
         </div>
         <div className="why-us-card">
-          <div className="why-us-icon">👥</div>
+          <div className="why-us-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
+          </div>
           <h3>Small Batch Sizes</h3>
           <p>We cap our groups at 12 people to ensure a personal, uncrowded experience.</p>
         </div>
         <div className="why-us-card">
-          <div className="why-us-icon">✨</div>
+          <div className="why-us-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 20h9" />
+              <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+            </svg>
+          </div>
           <h3>100% Customizable</h3>
           <p>Want to change the itinerary? We tailor your trip exactly to your preferences.</p>
         </div>
@@ -305,7 +328,7 @@ function NewsletterPopup() {
         <button className="btn-close-modal" onClick={closePopup}>✕</button>
         {submitted ? (
           <div className="newsletter-success">
-            <h3>Awesome! 🎉</h3>
+            <h3>Awesome!</h3>
             <p>Your free 2026 Himachal Trek Calendar is on its way to your inbox.</p>
           </div>
         ) : (
@@ -341,6 +364,21 @@ export default function Home() {
   const maxIndex = tours.length - 3;
   const [searchQuery, setSearchQuery] = useState("");
   const [searchDate, setSearchDate] = useState("");
+  const [calendarOpen, setCalendarOpen] = useState(false);
+  const [calendarMonth, setCalendarMonth] = useState(new Date().getMonth());
+  const [calendarYear, setCalendarYear] = useState(new Date().getFullYear());
+  const calendarRef = useRef<HTMLDivElement>(null);
+
+  // Close calendar on outside click
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (calendarRef.current && !calendarRef.current.contains(e.target as Node)) {
+        setCalendarOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const handleSearch = () => {
     const params = new URLSearchParams();
@@ -370,16 +408,16 @@ export default function Home() {
 
     // Build a personalized WhatsApp message
     const whatsappNumber = "919876543210"; // TODO: Replace with your actual WhatsApp number
-    const greeting = `Hi Magic Moment! 🏔️`;
+    const greeting = `Hi Magic Moment!`;
     const intro = `I'm *${formData.name}* and I'd love to plan a trip with you!`;
     const details = [
-      formData.email ? `📧 Email: ${formData.email}` : "",
-      formData.phone ? `📱 Phone: ${formData.phone}` : "",
-      formData.destination ? `📍 Interested in: *${formData.destination}*` : "",
-      formData.travelers ? `👥 Travelers: ${formData.travelers}` : "",
+      formData.email ? `Email: ${formData.email}` : "",
+      formData.phone ? `Phone: ${formData.phone}` : "",
+      formData.destination ? `Interested in: *${formData.destination}*` : "",
+      formData.travelers ? `Travelers: ${formData.travelers}` : "",
     ].filter(Boolean).join("\n");
-    const msg = formData.message ? `\n💬 Message:\n${formData.message}` : "";
-    const closing = `\nLooking forward to hearing from you! ✨`;
+    const msg = formData.message ? `\nMessage:\n${formData.message}` : "";
+    const closing = `\nLooking forward to hearing from you!`;
 
     const fullMessage = `${greeting}\n\n${intro}\n\n${details}${msg}\n${closing}`;
     const encodedMessage = encodeURIComponent(fullMessage);
@@ -484,15 +522,82 @@ export default function Home() {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
           <span className="search-divider" />
-          <div className="search-date" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <div className="search-date" ref={calendarRef} style={{ position: "relative", display: "flex", alignItems: "center", gap: "8px" }}>
             <CalendarIcon />
-            <input
-              type="date"
+            <button
+              type="button"
               className="search-date-input"
-              value={searchDate}
-              onChange={(e) => setSearchDate(e.target.value)}
+              onClick={() => setCalendarOpen(!calendarOpen)}
               aria-label="Select date"
-            />
+            >
+              {searchDate
+                ? new Date(searchDate + "T00:00:00").toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })
+                : "Select date"}
+            </button>
+            {calendarOpen && (() => {
+              const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+              const dayNames = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+              const firstDay = new Date(calendarYear, calendarMonth, 1).getDay();
+              const daysInMonth = new Date(calendarYear, calendarMonth + 1, 0).getDate();
+              const today = new Date();
+              const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+              const days: (number | null)[] = [];
+              for (let i = 0; i < firstDay; i++) days.push(null);
+              for (let i = 1; i <= daysInMonth; i++) days.push(i);
+
+              const prevMonth = () => {
+                if (calendarMonth === 0) { setCalendarMonth(11); setCalendarYear(calendarYear - 1); }
+                else setCalendarMonth(calendarMonth - 1);
+              };
+              const nextMonth = () => {
+                if (calendarMonth === 11) { setCalendarMonth(0); setCalendarYear(calendarYear + 1); }
+                else setCalendarMonth(calendarMonth + 1);
+              };
+              const selectDay = (day: number) => {
+                const dateStr = `${calendarYear}-${String(calendarMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+                setSearchDate(dateStr);
+                setCalendarOpen(false);
+              };
+
+              return (
+                <div className="custom-calendar">
+                  <div className="cal-header">
+                    <button type="button" className="cal-nav" onClick={prevMonth} aria-label="Previous month">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+                    </button>
+                    <span className="cal-title">{monthNames[calendarMonth]} {calendarYear}</span>
+                    <button type="button" className="cal-nav" onClick={nextMonth} aria-label="Next month">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+                    </button>
+                  </div>
+                  <div className="cal-days-header">
+                    {dayNames.map((d) => <span key={d} className="cal-day-name">{d}</span>)}
+                  </div>
+                  <div className="cal-grid">
+                    {days.map((day, i) => {
+                      if (day === null) return <span key={`e-${i}`} className="cal-empty" />;
+                      const dateStr = `${calendarYear}-${String(calendarMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+                      const isSelected = dateStr === searchDate;
+                      const isToday = dateStr === todayStr;
+                      return (
+                        <button
+                          key={day}
+                          type="button"
+                          className={`cal-day${isSelected ? " cal-selected" : ""}${isToday ? " cal-today" : ""}`}
+                          onClick={() => selectDay(day)}
+                        >
+                          {day}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <div className="cal-footer">
+                    <button type="button" className="cal-footer-btn" onClick={() => { setSearchDate(""); setCalendarOpen(false); }}>Clear</button>
+                    <button type="button" className="cal-footer-btn" onClick={() => { setSearchDate(todayStr); setCalendarMonth(today.getMonth()); setCalendarYear(today.getFullYear()); setCalendarOpen(false); }}>Today</button>
+                  </div>
+                </div>
+              );
+            })()}
           </div>
           <button type="submit" className="search-btn">SEARCH TOURS</button>
         </form>
@@ -534,8 +639,8 @@ export default function Home() {
                     style={{ objectFit: "cover", width: "100%", height: "100%" }}
                   />
                   <div className="tour-card-badges">
-                    {tour.icons.map((ico, i) => (
-                      <span className="badge" key={i}>{ico}</span>
+                    {tour.iconKeys.map((key, i) => (
+                      <span className="badge badge-icon" key={i}><TourIcon name={key} size={14} /></span>
                     ))}
                   </div>
                   <div className="tours-page-card-difficulty">
@@ -560,24 +665,8 @@ export default function Home() {
                       <UserIcon /> {tour.persons} Person
                     </span>
                   </div>
-                  {(tour.spotsLeft || tour.urgencyMsg) && (
-                    <div className="tour-urgency">
-                      {tour.spotsLeft && <span className="urgency-spots">⏳ Only {tour.spotsLeft} {tour.spotsLeft === 1 ? 'spot' : 'spots'} left</span>}
-                      {tour.urgencyMsg && <span className="urgency-msg">🔥 {tour.urgencyMsg}</span>}
-                    </div>
-                  )}
                   <div className="tour-card-footer">
-                    <div className="price-group">
-                      {tour.priceOld ? (
-                        <>
-                          <span className="price-old">{formatPrice(tour.priceOld)}</span>
-                          <span className="price-new">{formatPrice(tour.priceNew)}</span>
-                        </>
-                      ) : (
-                        <span className="price-only">{formatPrice(tour.priceNew)}</span>
-                      )}
-                    </div>
-                    <button className="btn-card-book">BOOK</button>
+                    <a href={`/tours/${tour.slug}`} className="btn-card-book">VIEW DETAILS</a>
                   </div>
                 </div>
               </article>
