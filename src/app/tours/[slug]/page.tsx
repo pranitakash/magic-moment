@@ -104,7 +104,8 @@ export default function TourDetailPage() {
     phone: "",
     email: "",
     travelers: "",
-    dates: "",
+    startDate: "",
+    endDate: "",
     message: "",
   });
   const [sending, setSending] = useState(false);
@@ -126,7 +127,9 @@ export default function TourDetailPage() {
       formData.phone ? `Phone: ${formData.phone}` : "",
       formData.email ? `Email: ${formData.email}` : "",
       formData.travelers ? `Travelers: ${formData.travelers}` : "",
-      formData.dates ? `Preferred Dates: ${formData.dates}` : "",
+      (formData.startDate || formData.endDate)
+        ? `Preferred Dates: ${formData.startDate ? new Date(formData.startDate).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) : "—"} to ${formData.endDate ? new Date(formData.endDate).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) : "—"}`
+        : "",
       formData.message ? `\nMessage:\n${formData.message}` : "",
       ``,
       `Looking forward to hearing from you!`,
@@ -136,7 +139,7 @@ export default function TourDetailPage() {
     setTimeout(() => {
       setSending(false);
       setShowModal(false);
-      setFormData({ name: "", phone: "", email: "", travelers: "", dates: "", message: "" });
+      setFormData({ name: "", phone: "", email: "", travelers: "", startDate: "", endDate: "", message: "" });
     }, 1500);
   };
 
@@ -404,9 +407,15 @@ export default function TourDetailPage() {
                   <input id="bk-travelers" name="travelers" type="number" min="1" placeholder="e.g. 4" value={formData.travelers} onChange={handleChange} />
                 </div>
               </div>
-              <div className="booking-field">
-                <label htmlFor="bk-dates">Preferred Dates</label>
-                <input id="bk-dates" name="dates" type="text" placeholder="e.g. 15 Aug — 22 Aug" value={formData.dates} onChange={handleChange} />
+              <div className="booking-row">
+                <div className="booking-field">
+                  <label htmlFor="bk-start">Start Date</label>
+                  <input id="bk-start" name="startDate" type="date" value={formData.startDate} onChange={handleChange} />
+                </div>
+                <div className="booking-field">
+                  <label htmlFor="bk-end">End Date</label>
+                  <input id="bk-end" name="endDate" type="date" min={formData.startDate || undefined} value={formData.endDate} onChange={handleChange} />
+                </div>
               </div>
               <div className="booking-field">
                 <label htmlFor="bk-message">Message</label>
