@@ -407,7 +407,7 @@ export default function Home() {
     setFormSending(true);
 
     // Build a personalized WhatsApp message
-    const whatsappNumber = "919876543210"; // TODO: Replace with your actual WhatsApp number
+    const whatsappNumber = "919991835906";
     const greeting = `Hi Magic Moment!`;
     const intro = `I'm *${formData.name}* and I'd love to plan a trip with you!`;
     const details = [
@@ -468,9 +468,9 @@ export default function Home() {
             <a href="#contact">Contact</a>
           </nav>
           <div className="nav-right">
-            <button className="btn-whatsapp" aria-label="WhatsApp">
+            <a href="https://wa.me/919991835906" target="_blank" rel="noopener noreferrer" className="btn-whatsapp" aria-label="WhatsApp">
               <WhatsAppIcon />
-            </button>
+            </a>
             <button className="btn-book-now">Book Now</button>
           </div>
         </div>
@@ -793,12 +793,15 @@ export default function Home() {
                     onChange={handleFormChange}
                   >
                     <option value="">Select a destination</option>
-                    <option value="Manali">Manali — Mountain Escape</option>
-                    <option value="Sissu">Sissu — Beyond the Tunnel</option>
-                    <option value="Kasol">Kasol — Parvati Valley Trail</option>
-                    <option value="Valley of Flowers">Valley of Flowers — Bloom Trek</option>
-                    <option value="Rishikesh">Rishikesh — River & Yoga Retreat</option>
-                    <option value="Jibhi">Jibhi — Hidden Tirthan Valley</option>
+                    <option value="Himachal Pradesh">Himachal Pradesh — Mountain Odyssey</option>
+                    <option value="Rajasthan">Rajasthan — Royal Heritage Trail</option>
+                    <option value="Kerala">Kerala — God&apos;s Own Country</option>
+                    <option value="Nepal">Nepal — Himalayan Adventure</option>
+                    <option value="Jammu & Kashmir">Jammu &amp; Kashmir — Paradise on Earth</option>
+                    <option value="Uttarakhand">Uttarakhand — Devbhoomi Trail</option>
+                    <option value="Uttar Pradesh">Uttar Pradesh — Heritage Trail</option>
+                    <option value="Sikkim">Sikkim — Mountain Kingdom</option>
+                    <option value="Meghalaya">Meghalaya — Abode of Clouds</option>
                     <option value="Custom">Custom / Not Sure Yet</option>
                   </select>
                 </div>
@@ -838,7 +841,7 @@ export default function Home() {
                 </div>
                 <div>
                   <h4>Call Us</h4>
-                  <p>+91 98765 43210</p>
+                  <p><a href="tel:+919991835906" style={{color: 'inherit', textDecoration: 'none'}}>+91 99918 35906</a></p>
                   <p className="contact-info-sub">Mon — Sat, 9 AM – 7 PM</p>
                 </div>
               </div>
@@ -848,7 +851,7 @@ export default function Home() {
                 </div>
                 <div>
                   <h4>Email Us</h4>
-                  <p>hello@magicmoment.in</p>
+                  <p><a href="mailto:work.yourmagicmoments@gmail.com" style={{color: 'inherit', textDecoration: 'none'}}>work.yourmagicmoments@gmail.com</a></p>
                   <p className="contact-info-sub">We reply within 24 hours</p>
                 </div>
               </div>
@@ -877,19 +880,13 @@ export default function Home() {
               <div className="contact-socials">
                 <p className="socials-label">Follow Us</p>
                 <div className="socials-row">
-                  <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="Instagram" id="social-instagram">
+                  <a href="https://www.instagram.com/yourmagicmoments.in?igsh=MW9haGNhbTgxZzYzbg==" target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="Instagram" id="social-instagram">
                     <InstagramIcon />
                   </a>
-                  <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="Facebook" id="social-facebook">
+                  <a href="https://www.facebook.com/share/1GaMBtuTa5/" target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="Facebook" id="social-facebook">
                     <FacebookIcon />
                   </a>
-                  <a href="https://youtube.com/" target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="YouTube" id="social-youtube">
-                    <YouTubeIcon />
-                  </a>
-                  <a href="https://x.com/" target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="X (Twitter)" id="social-twitter">
-                    <TwitterIcon />
-                  </a>
-                  <a href="https://wa.me/919876543210" target="_blank" rel="noopener noreferrer" className="social-icon-link whatsapp" aria-label="WhatsApp" id="social-whatsapp">
+                  <a href="https://wa.me/919991835906" target="_blank" rel="noopener noreferrer" className="social-icon-link whatsapp" aria-label="WhatsApp" id="social-whatsapp">
                     <WhatsAppIcon />
                   </a>
                 </div>
@@ -990,10 +987,9 @@ export default function Home() {
                 Handpicked Himalayan treks & getaways. Making every moment magical since 2018.
               </p>
               <div className="footer-socials">
-                <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><InstagramIcon /></a>
-                <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><FacebookIcon /></a>
-                <a href="https://youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><YouTubeIcon /></a>
-                <a href="https://x.com/" target="_blank" rel="noopener noreferrer" aria-label="X"><TwitterIcon /></a>
+                <a href="https://www.instagram.com/yourmagicmoments.in?igsh=MW9haGNhbTgxZzYzbg==" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><InstagramIcon /></a>
+                <a href="https://www.facebook.com/share/1GaMBtuTa5/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><FacebookIcon /></a>
+                <a href="https://wa.me/919991835906" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><WhatsAppIcon /></a>
               </div>
             </div>
             <div className="footer-col">
@@ -1012,8 +1008,8 @@ export default function Home() {
             </div>
             <div className="footer-col">
               <h4 className="footer-col-title">Contact</h4>
-              <a href="tel:+919876543210">+91 98765 43210</a>
-              <a href="mailto:hello@magicmoment.in">hello@magicmoment.in</a>
+              <a href="tel:+919991835906">+91 99918 35906</a>
+              <a href="mailto:work.yourmagicmoments@gmail.com">work.yourmagicmoments@gmail.com</a>
               <a href="#">Manali, Himachal Pradesh</a>
             </div>
           </div>
