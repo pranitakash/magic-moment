@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import { tours } from "@/data/tours";
@@ -95,6 +96,49 @@ export default function TourDetailPage() {
   }
 
   const g = detail.gallery; // shorthand
+
+  /* ── Booking Modal State ── */
+  const [showModal, setShowModal] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    travelers: "",
+    dates: "",
+    message: "",
+  });
+  const [sending, setSending] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleBookingSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSending(true);
+    const whatsappNumber = "919991835906";
+    const lines = [
+      `Hi Magic Moment!`,
+      ``,
+      `I'm *${formData.name}* and I'd love to book the tour:`,
+      `*${tour.title}* (${tour.days} Days)`,
+      ``,
+      formData.phone ? `Phone: ${formData.phone}` : "",
+      formData.email ? `Email: ${formData.email}` : "",
+      formData.travelers ? `Travelers: ${formData.travelers}` : "",
+      formData.dates ? `Preferred Dates: ${formData.dates}` : "",
+      formData.message ? `\nMessage:\n${formData.message}` : "",
+      ``,
+      `Looking forward to hearing from you!`,
+    ].filter(Boolean).join("\n");
+    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(lines)}`;
+    window.open(url, "_blank");
+    setTimeout(() => {
+      setSending(false);
+      setShowModal(false);
+      setFormData({ name: "", phone: "", email: "", travelers: "", dates: "", message: "" });
+    }, 1500);
+  };
 
   return (
     <>
@@ -298,7 +342,7 @@ export default function TourDetailPage() {
                 </div>
               </div>
             </div>
-            <a href="/#contact" className="td-btn-book">Book This Tour</a>
+            <button className="td-btn-book" onClick={() => setShowModal(true)}>Book This Tour</button>
           </div>
 
           {/* Icon Badges */}
@@ -317,7 +361,7 @@ export default function TourDetailPage() {
         <div className="container td-cta-inner">
           <h2>Ready for this adventure?</h2>
           <p>Get in touch and we will craft the perfect itinerary for your group.</p>
-          <a href="/#contact" className="td-cta-btn">Plan My Trip</a>
+          <button className="td-cta-btn" onClick={() => setShowModal(true)}>Plan My Trip</button>
         </div>
       </section>
 
@@ -327,6 +371,56 @@ export default function TourDetailPage() {
           <p>&copy; 2026 Magic Moment. All rights reserved.</p>
         </div>
       </footer>
+
+      {/* ── BOOKING MODAL ── */}
+      {showModal && (
+        <div className="booking-overlay" onClick={() => setShowModal(false)}>
+          <div className="booking-modal" onClick={(e) => e.stopPropagation()}>
+            <button className="booking-close" onClick={() => setShowModal(false)} aria-label="Close">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <div className="booking-modal-header">
+              <h3>Book Your Trip</h3>
+              <p className="booking-tour-name">{tour.title}</p>
+            </div>
+            <form onSubmit={handleBookingSubmit} className="booking-form">
+              <div className="booking-row">
+                <div className="booking-field">
+                  <label htmlFor="bk-name">Full Name *</label>
+                  <input id="bk-name" name="name" type="text" required placeholder="Your name" value={formData.name} onChange={handleChange} />
+                </div>
+                <div className="booking-field">
+                  <label htmlFor="bk-phone">Phone *</label>
+                  <input id="bk-phone" name="phone" type="tel" required placeholder="+91 ..." value={formData.phone} onChange={handleChange} />
+                </div>
+              </div>
+              <div className="booking-row">
+                <div className="booking-field">
+                  <label htmlFor="bk-email">Email</label>
+                  <input id="bk-email" name="email" type="email" placeholder="you@email.com" value={formData.email} onChange={handleChange} />
+                </div>
+                <div className="booking-field">
+                  <label htmlFor="bk-travelers">Travelers</label>
+                  <input id="bk-travelers" name="travelers" type="number" min="1" placeholder="e.g. 4" value={formData.travelers} onChange={handleChange} />
+                </div>
+              </div>
+              <div className="booking-field">
+                <label htmlFor="bk-dates">Preferred Dates</label>
+                <input id="bk-dates" name="dates" type="text" placeholder="e.g. 15 Aug — 22 Aug" value={formData.dates} onChange={handleChange} />
+              </div>
+              <div className="booking-field">
+                <label htmlFor="bk-message">Message</label>
+                <textarea id="bk-message" name="message" rows={3} placeholder="Any special requests or questions..." value={formData.message} onChange={handleChange} />
+              </div>
+              <button type="submit" className={`booking-submit${sending ? ' sending' : ''}`} disabled={sending}>
+                {sending ? 'Sending...' : (
+                  <><WhatsAppIcon /> Send via WhatsApp</>
+                )}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </>
   );
 }
