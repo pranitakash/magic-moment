@@ -687,25 +687,102 @@ export default function Home() {
       {/* ──── WHY US ──── */}
       <WhyUsSection />
 
-      {/* ──── STATS ──── */}
-      {/* <section
-        className="stats-section container"
-        id="stats"
-        ref={statsRef.ref}
-        style={{ opacity: statsRef.isVisible ? 1 : 0, transform: statsRef.isVisible ? 'translateY(0)' : 'translateY(30px)', transition: 'opacity 0.7s ease 0.15s, transform 0.7s ease 0.15s' }}
-      >
-        <div className="stats-grid">
-          {stats.map((s, i) => (
-            <div className="stat-card" key={i}>
-              <div className="stat-number">{s.number}</div>
-              <div className="stat-label">{s.label}</div>
+      {/* ──── ABOUT US ──── */}
+      <section className="about-section" id="about">
+        <div className="container">
+          <div className="about-grid">
+            {/* Left: Story */}
+            <div className="about-text">
+              <span className="about-eyebrow">ABOUT US</span>
+              <h2 className="about-title">We Don&apos;t Just Plan Trips.<br />We Craft Memories.</h2>
+              <p className="about-desc">
+                Born out of a love for the mountains and a passion for authentic travel, <strong>Magic Moment</strong> started
+                as a small group of friends who believed the best journeys aren&apos;t found in brochures — they&apos;re felt
+                in shared laughter around a campfire, in the silence of a snow-capped summit at dawn, and in the warmth of
+                a village homestay.
+              </p>
+              <p className="about-desc">
+                Based in the heart of Himachal Pradesh, we handpick every trail, every stay, and every experience so you
+                can travel without the stress. Whether it&apos;s a solo trek through Spiti or a family holiday in Kerala,
+                our team of local experts and seasoned guides make sure every moment is — well — <em>magical</em>.
+              </p>
+              <div className="about-values">
+                <div className="about-value-item">
+                  <span className="about-value-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                  </span>
+                  <div>
+                    <strong>Locally Rooted</strong>
+                    <span>Guides who grew up in these mountains</span>
+                  </div>
+                </div>
+                <div className="about-value-item">
+                  <span className="about-value-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                  </span>
+                  <div>
+                    <strong>Handcrafted Trips</strong>
+                    <span>Every itinerary tailored to you</span>
+                  </div>
+                </div>
+                <div className="about-value-item">
+                  <span className="about-value-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                  </span>
+                  <div>
+                    <strong>Small Groups</strong>
+                    <span>Intimate trips, never overcrowded</span>
+                  </div>
+                </div>
+              </div>
             </div>
-          ))}
+
+            {/* Right: Highlights */}
+            <div className="about-highlights">
+              <div className="about-features-grid">
+                <div className="about-feature">
+                  <span className="about-feature-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                  </span>
+                  <strong>Himachal Based</strong>
+                  <span>Operating from the heart of the Himalayas</span>
+                </div>
+                <div className="about-feature">
+                  <span className="about-feature-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  </span>
+                  <strong>9 Destinations</strong>
+                  <span>Across India &amp; Nepal</span>
+                </div>
+                <div className="about-feature">
+                  <span className="about-feature-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                  </span>
+                  <strong>End-to-End</strong>
+                  <span>We handle everything, you just show up</span>
+                </div>
+                <div className="about-feature">
+                  <span className="about-feature-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  </span>
+                  <strong>Always Reachable</strong>
+                  <span>WhatsApp support before, during &amp; after</span>
+                </div>
+              </div>
+              <div className="about-quote-card">
+                <svg className="about-quote-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 0 1-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 0 1-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z"/></svg>
+                <p>&ldquo;They didn&apos;t just show us the mountains — they made us feel at home in them. Best travel decision we ever made.&rdquo;</p>
+                <span className="about-quote-author">— Priya &amp; Rahul, Delhi</span>
+              </div>
+            </div>
+          </div>
         </div>
-      </section> */}
+      </section>
+
 
       {/* ──── FAQ ──── */}
       <FaqAccordion />
+
 
       {/* ──── CONTACT SECTION ──── */}
       <section
