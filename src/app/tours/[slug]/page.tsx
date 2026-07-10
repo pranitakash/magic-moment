@@ -113,9 +113,9 @@ export default function TourDetailPage() {
             <a href="/#contact">Contact</a>
           </nav>
           <div className="nav-right">
-            <button className="btn-whatsapp" aria-label="WhatsApp">
+            <a href="https://wa.me/919991835906" target="_blank" rel="noopener noreferrer" className="btn-whatsapp" aria-label="WhatsApp">
               <WhatsAppIcon />
-            </button>
+            </a>
             <a href="/#contact" className="btn-book-now">Book Now</a>
           </div>
         </div>
