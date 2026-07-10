@@ -793,12 +793,15 @@ export default function Home() {
                     onChange={handleFormChange}
                   >
                     <option value="">Select a destination</option>
-                    <option value="Manali">Manali — Mountain Escape</option>
-                    <option value="Sissu">Sissu — Beyond the Tunnel</option>
-                    <option value="Kasol">Kasol — Parvati Valley Trail</option>
-                    <option value="Valley of Flowers">Valley of Flowers — Bloom Trek</option>
-                    <option value="Rishikesh">Rishikesh — River & Yoga Retreat</option>
-                    <option value="Jibhi">Jibhi — Hidden Tirthan Valley</option>
+                    <option value="Himachal Pradesh">Himachal Pradesh — Mountain Odyssey</option>
+                    <option value="Rajasthan">Rajasthan — Royal Heritage Trail</option>
+                    <option value="Kerala">Kerala — God&apos;s Own Country</option>
+                    <option value="Nepal">Nepal — Himalayan Adventure</option>
+                    <option value="Jammu & Kashmir">Jammu &amp; Kashmir — Paradise on Earth</option>
+                    <option value="Uttarakhand">Uttarakhand — Devbhoomi Trail</option>
+                    <option value="Uttar Pradesh">Uttar Pradesh — Heritage Trail</option>
+                    <option value="Sikkim">Sikkim — Mountain Kingdom</option>
+                    <option value="Meghalaya">Meghalaya — Abode of Clouds</option>
                     <option value="Custom">Custom / Not Sure Yet</option>
                   </select>
                 </div>
