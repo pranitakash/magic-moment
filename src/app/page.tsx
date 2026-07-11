@@ -128,23 +128,6 @@ function MailIcon() {
   );
 }
 
-function MapPinIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-      <circle cx="12" cy="10" r="3" />
-    </svg>
-  );
-}
-
-function ClockIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="10" />
-      <polyline points="12 6 12 12 16 14" />
-    </svg>
-  );
-}
 
 function SendIcon() {
   return (
@@ -934,7 +917,7 @@ export default function Home() {
               </div>
               <div className="contact-info-card">
                 <div className="contact-info-icon">
-                  <MapPinIcon />
+                  <MapPinIcon size={20} />
                 </div>
                 <div>
                   <h4>Visit Us</h4>
@@ -944,7 +927,7 @@ export default function Home() {
               </div>
               <div className="contact-info-card">
                 <div className="contact-info-icon">
-                  <ClockIcon />
+                  <ClockIcon size={20} />
                 </div>
                 <div>
                   <h4>Office Hours</h4>
