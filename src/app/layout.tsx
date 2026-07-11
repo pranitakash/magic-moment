@@ -15,9 +15,9 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Magic Moment — Handpicked Himalayan Treks & Getaways",
+  title: "Your Magic Moments — Handpicked Himalayan Treks & Getaways",
   description:
-    "Discover Himachal & Uttarakhand's hidden valleys with Magic Moment. We organize handpicked treks and getaways across the Himalayas.",
+    "Discover Himachal & Uttarakhand's hidden valleys with Your Magic Moments. We organize handpicked treks and getaways across the Himalayas.",
 };
 
 export default function RootLayout({

@@ -115,6 +115,17 @@ function ToursPageContent() {
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [compareList, setCompareList] = useState<Tour[]>([]);
   const [showCompareModal, setShowCompareModal] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileMenuOpen]);
 
   // Sync search query with URL
   useEffect(() => {
@@ -362,8 +373,8 @@ function ToursPageContent() {
       <header className="header tours-header" id="header">
         <div className="header-inner">
           <a href="/" className="logo" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <Image src="/PHOTO.png" alt="Magic Moment Logo" width={36} height={36} style={{ objectFit: 'contain' }} />
-            Magic moment
+            <Image src="/PHOTO.png" alt="Your Magic Moments Logo" width={36} height={36} style={{ objectFit: 'contain' }} />
+            Your Magic Moments
           </a>
           <nav className="nav-links">
             <a href="/tours" className="active">Tours</a>
@@ -377,9 +388,56 @@ function ToursPageContent() {
               <WhatsAppIcon />
             </button>
             <a href="/#contact" className="btn-book-now">Book Now</a>
+            <button
+              className="hamburger-btn"
+              onClick={() => setMobileMenuOpen(true)}
+              aria-label="Open menu"
+            >
+              <span className="hamburger-line" />
+              <span className="hamburger-line" />
+              <span className="hamburger-line" />
+            </button>
           </div>
         </div>
       </header>
+
+      {/* ──── MOBILE MENU DRAWER ──── */}
+      {mobileMenuOpen && (
+        <div className="mobile-menu-overlay" onClick={() => setMobileMenuOpen(false)} />
+      )}
+      <nav className={`mobile-menu-drawer${mobileMenuOpen ? " open" : ""}`}>
+        <div className="mobile-menu-header">
+          <a href="/" className="logo" style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+            <Image src="/PHOTO.png" alt="Your Magic Moments Logo" width={40} height={48} style={{ objectFit: 'contain' }} />
+            Your Magic Moments
+          </a>
+          <button
+            className="mobile-menu-close"
+            onClick={() => setMobileMenuOpen(false)}
+            aria-label="Close menu"
+          >
+            ✕
+          </button>
+        </div>
+        <div className="mobile-menu-links">
+          <a href="/tours" onClick={() => setMobileMenuOpen(false)}>Tours</a>
+          <a href="/#destinations" onClick={() => setMobileMenuOpen(false)}>Destinations</a>
+          <a href="/#about" onClick={() => setMobileMenuOpen(false)}>About Us</a>
+          <a href="/#blog" onClick={() => setMobileMenuOpen(false)}>Blog</a>
+          <a href="/#contact" onClick={() => setMobileMenuOpen(false)}>Contact</a>
+        </div>
+        <div className="mobile-menu-footer">
+          <a
+            href="https://wa.me/919991835906"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mobile-menu-wa-btn"
+          >
+            <WhatsAppIcon /> Chat on WhatsApp
+          </a>
+          <a href="/#contact" className="btn-book-now mobile-menu-book-btn">Book Now</a>
+        </div>
+      </nav>
 
       {/* ──── PAGE HERO ──── */}
       <section className="tours-hero">
@@ -537,7 +595,7 @@ function ToursPageContent() {
         <div className="container">
           <div className="footer-bottom">
             <p className="footer-text">
-              © {new Date().getFullYear()} Magic Moment. All rights reserved. Handpicked Himalayan experiences.
+              © {new Date().getFullYear()} Your Magic Moments. All rights reserved. Handpicked Himalayan experiences.
             </p>
           </div>
         </div>

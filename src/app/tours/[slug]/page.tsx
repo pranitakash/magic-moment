@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import { tours } from "@/data/tours";
@@ -109,6 +109,17 @@ export default function TourDetailPage() {
     message: "",
   });
   const [sending, setSending] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileMenuOpen]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -119,7 +130,7 @@ export default function TourDetailPage() {
     setSending(true);
     const whatsappNumber = "919991835906";
     const lines = [
-      `Hi Magic Moment!`,
+      `Hi Your Magic Moments!`,
       ``,
       `I'm *${formData.name}* and I'd love to book the tour:`,
       `*${tour.title}* (${tour.days} Days)`,
@@ -149,8 +160,8 @@ export default function TourDetailPage() {
       <header className="header tours-header" id="header">
         <div className="header-inner">
           <a href="/" className="logo" style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-            <Image src="/PHOTO.png" alt="Magic Moment Logo" width={50} height={60} style={{ objectFit: 'contain' }} />
-            Magic moment
+            <Image src="/PHOTO.png" alt="Your Magic Moments Logo" width={50} height={60} style={{ objectFit: 'contain' }} />
+            Your Magic Moments
           </a>
           <nav className="nav-links">
             <a href="/tours">Tours</a>
@@ -164,9 +175,56 @@ export default function TourDetailPage() {
               <WhatsAppIcon />
             </a>
             <a href="/#contact" className="btn-book-now">Book Now</a>
+            <button
+              className="hamburger-btn"
+              onClick={() => setMobileMenuOpen(true)}
+              aria-label="Open menu"
+            >
+              <span className="hamburger-line" />
+              <span className="hamburger-line" />
+              <span className="hamburger-line" />
+            </button>
           </div>
         </div>
       </header>
+
+      {/* ──── MOBILE MENU DRAWER ──── */}
+      {mobileMenuOpen && (
+        <div className="mobile-menu-overlay" onClick={() => setMobileMenuOpen(false)} />
+      )}
+      <nav className={`mobile-menu-drawer${mobileMenuOpen ? " open" : ""}`}>
+        <div className="mobile-menu-header">
+          <a href="/" className="logo" style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+            <Image src="/PHOTO.png" alt="Your Magic Moments Logo" width={40} height={48} style={{ objectFit: 'contain' }} />
+            Your Magic Moments
+          </a>
+          <button
+            className="mobile-menu-close"
+            onClick={() => setMobileMenuOpen(false)}
+            aria-label="Close menu"
+          >
+            ✕
+          </button>
+        </div>
+        <div className="mobile-menu-links">
+          <a href="/tours" onClick={() => setMobileMenuOpen(false)}>Tours</a>
+          <a href="/#destinations" onClick={() => setMobileMenuOpen(false)}>Destinations</a>
+          <a href="/#about" onClick={() => setMobileMenuOpen(false)}>About Us</a>
+          <a href="/#blog" onClick={() => setMobileMenuOpen(false)}>Blog</a>
+          <a href="/#contact" onClick={() => setMobileMenuOpen(false)}>Contact</a>
+        </div>
+        <div className="mobile-menu-footer">
+          <a
+            href="https://wa.me/919991835906"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mobile-menu-wa-btn"
+          >
+            <WhatsAppIcon /> Chat on WhatsApp
+          </a>
+          <a href="/#contact" className="btn-book-now mobile-menu-book-btn">Book Now</a>
+        </div>
+      </nav>
 
       {/* ── BREADCRUMB ── */}
       <div className="container td-breadcrumb">
@@ -371,7 +429,7 @@ export default function TourDetailPage() {
       {/* ── FOOTER ── */}
       <footer className="footer">
         <div className="container footer-inner">
-          <p>&copy; 2026 Magic Moment. All rights reserved.</p>
+          <p>&copy; 2026 Your Magic Moments. All rights reserved.</p>
         </div>
       </footer>
 

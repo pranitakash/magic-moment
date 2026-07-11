@@ -220,7 +220,7 @@ function WhyUsSection() {
   return (
     <section className="why-us-section container" id="why-us">
       <div className="section-header why-us-header">
-        <span className="why-us-eyebrow">THE MAGIC MOMENT DIFFERENCE</span>
+        <span className="why-us-eyebrow">THE YOUR MAGIC MOMENTS DIFFERENCE</span>
         <h2>Why Travel With Us</h2>
       </div>
       <div className="why-us-grid">
@@ -351,6 +351,17 @@ export default function Home() {
   const [calendarMonth, setCalendarMonth] = useState(new Date().getMonth());
   const [calendarYear, setCalendarYear] = useState(new Date().getFullYear());
   const calendarRef = useRef<HTMLDivElement>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileMenuOpen]);
 
   // Close calendar on outside click
   useEffect(() => {
@@ -391,7 +402,7 @@ export default function Home() {
 
     // Build a personalized WhatsApp message
     const whatsappNumber = "919991835906";
-    const greeting = `Hi Magic Moment!`;
+    const greeting = `Hi Your Magic Moments!`;
     const intro = `I'm *${formData.name}* and I'd love to plan a trip with you!`;
     const details = [
       formData.email ? `Email: ${formData.email}` : "",
@@ -440,8 +451,8 @@ export default function Home() {
       <header className="header" id="header">
         <div className="header-inner">
           <a href="/" className="logo" style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-            <Image src="/PHOTO.png" alt="Magic Moment Logo" width={50} height={60} style={{ objectFit: 'contain' }} />
-            Magic moment
+            <Image src="/PHOTO.png" alt="Your Magic Moments Logo" width={50} height={60} style={{ objectFit: 'contain' }} />
+            Your Magic Moments
           </a>
           <nav className="nav-links">
             <a href="/tours">Tours</a>
@@ -455,9 +466,56 @@ export default function Home() {
               <WhatsAppIcon />
             </a>
             <button className="btn-book-now">Book Now</button>
+            <button
+              className="hamburger-btn"
+              onClick={() => setMobileMenuOpen(true)}
+              aria-label="Open menu"
+            >
+              <span className="hamburger-line" />
+              <span className="hamburger-line" />
+              <span className="hamburger-line" />
+            </button>
           </div>
         </div>
       </header>
+
+      {/* ──── MOBILE MENU DRAWER ──── */}
+      {mobileMenuOpen && (
+        <div className="mobile-menu-overlay" onClick={() => setMobileMenuOpen(false)} />
+      )}
+      <nav className={`mobile-menu-drawer${mobileMenuOpen ? " open" : ""}`}>
+        <div className="mobile-menu-header">
+          <a href="/" className="logo" style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+            <Image src="/PHOTO.png" alt="Your Magic Moments Logo" width={40} height={48} style={{ objectFit: 'contain' }} />
+            Your Magic Moments
+          </a>
+          <button
+            className="mobile-menu-close"
+            onClick={() => setMobileMenuOpen(false)}
+            aria-label="Close menu"
+          >
+            ✕
+          </button>
+        </div>
+        <div className="mobile-menu-links">
+          <a href="/tours" onClick={() => setMobileMenuOpen(false)}>Tours</a>
+          <a href="#destinations" onClick={() => setMobileMenuOpen(false)}>Destinations</a>
+          <a href="#about" onClick={() => setMobileMenuOpen(false)}>About Us</a>
+          <a href="#blog" onClick={() => setMobileMenuOpen(false)}>Blog</a>
+          <a href="#contact" onClick={() => setMobileMenuOpen(false)}>Contact</a>
+        </div>
+        <div className="mobile-menu-footer">
+          <a
+            href="https://wa.me/919991835906"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mobile-menu-wa-btn"
+          >
+            <WhatsAppIcon /> Chat on WhatsApp
+          </a>
+          <button className="btn-book-now mobile-menu-book-btn">Book Now</button>
+        </div>
+      </nav>
 
       {/* ──── HERO ──── */}
       <section className="hero" id="hero">
@@ -472,11 +530,11 @@ export default function Home() {
         <div className="hero-content">
           <span className="eyebrow animate-fade-in-up">WELCOME TO YOUR</span>
           <h1 className="hero-brand animate-fade-in-up animate-delay-1">
-            Magic moment
+            Your Magic Moments
           </h1>
           <p className="hero-subtext animate-fade-in-up animate-delay-2">
             We organize handpicked treks and getaways across the Himalayas.
-            Discover Himachal &amp; Uttarakhand&apos;s hidden valleys with Magic Moment.
+            Discover Himachal &amp; Uttarakhand&apos;s hidden valleys with Your Magic Moments.
           </p>
           <div className="hero-dots animate-fade-in-up animate-delay-3">
             {[0, 1, 2, 3, 4].map((i) => (
@@ -679,13 +737,13 @@ export default function Home() {
               <span className="about-eyebrow">ABOUT US</span>
               <h2 className="about-title">We Don&apos;t Just Plan Trips.<br />We Craft Memories.</h2>
               <p className="about-desc">
-                Born out of a love for the mountains and a passion for authentic travel, <strong>Magic Moment</strong> started
+                Born out of a love for the mountains and a passion for authentic travel, <strong>Your Magic Moments</strong> started
                 as a small group of friends who believed the best journeys aren&apos;t found in brochures — they&apos;re felt
                 in shared laughter around a campfire, in the silence of a snow-capped summit at dawn, and in the warmth of
                 a village homestay.
               </p>
               <p className="about-desc">
-                Based in the heart of Himachal Pradesh, we handpick every trail, every stay, and every experience so you
+                Based in Faridabad, we handpick every trail, every stay, and every experience so you
                 can travel without the stress. Whether it&apos;s a solo trek through Spiti or a family holiday in Kerala,
                 our team of local experts and seasoned guides make sure every moment is — well — <em>magical</em>.
               </p>
@@ -727,8 +785,8 @@ export default function Home() {
                   <span className="about-feature-icon">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
                   </span>
-                  <strong>Himachal Based</strong>
-                  <span>Operating from the heart of the Himalayas</span>
+                  <strong>Faridabad Based</strong>
+                  <span>Operating from Faridabad, Haryana</span>
                 </div>
                 <div className="about-feature">
                   <span className="about-feature-icon">
@@ -921,8 +979,8 @@ export default function Home() {
                 </div>
                 <div>
                   <h4>Visit Us</h4>
-                  <p>Manali, Himachal Pradesh</p>
-                  <p className="contact-info-sub">India — 175131</p>
+                  <p>Faridabad, Haryana</p>
+                  <p className="contact-info-sub">India — 121001</p>
                 </div>
               </div>
               <div className="contact-info-card">
@@ -1040,8 +1098,8 @@ export default function Home() {
           <div className="footer-grid">
             <div className="footer-col">
               <div className="footer-brand" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <Image src="/PHOTO.png" alt="Magic Moment Logo" width={36} height={36} style={{ objectFit: 'contain' }} />
-                Magic moment
+                <Image src="/PHOTO.png" alt="Your Magic Moments Logo" width={36} height={36} style={{ objectFit: 'contain' }} />
+                Your Magic Moments
               </div>
               <p className="footer-tagline">
                 Handpicked Himalayan treks & getaways. Making every moment magical since 2018.
@@ -1070,12 +1128,12 @@ export default function Home() {
               <h4 className="footer-col-title">Contact</h4>
               <a href="tel:+919991835906">+91 99918 35906</a>
               <a href="mailto:work.yourmagicmoments@gmail.com">work.yourmagicmoments@gmail.com</a>
-              <a href="#">Manali, Himachal Pradesh</a>
+              <a href="#">Faridabad, Haryana</a>
             </div>
           </div>
           <div className="footer-bottom">
             <p className="footer-text">
-              © {new Date().getFullYear()} Magic Moment. All rights reserved. Handpicked Himalayan experiences.
+              © {new Date().getFullYear()} Your Magic Moments. All rights reserved. Handpicked Himalayan experiences.
             </p>
           </div>
         </div>

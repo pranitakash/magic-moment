@@ -1943,6 +1943,163 @@ ul, ol {
 .animate-delay-3 { animation-delay: 0.3s; }
 .animate-delay-4 { animation-delay: 0.4s; }
 
+/* ===== HAMBURGER BUTTON (hidden on desktop) ===== */
+.hamburger-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  padding: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 101;
+}
+
+.hamburger-line {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--cream);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* ===== MOBILE MENU OVERLAY ===== */
+.mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 998;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: fadeIn 0.3s ease forwards;
+}
+
+/* ===== MOBILE MENU DRAWER ===== */
+.mobile-menu-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 85%;
+  max-width: 320px;
+  height: 100vh;
+  height: 100dvh;
+  z-index: 999;
+  background: var(--charcoal);
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.3);
+  overflow-y: auto;
+}
+
+.mobile-menu-drawer.open {
+  transform: translateX(0);
+}
+
+.mobile-menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(245, 241, 232, 0.08);
+}
+
+.mobile-menu-header .logo {
+  font-size: 1.1rem;
+}
+
+.mobile-menu-close {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(245, 241, 232, 0.08);
+  color: var(--cream);
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.mobile-menu-close:hover {
+  background: rgba(245, 241, 232, 0.15);
+  transform: none;
+  filter: none;
+}
+
+.mobile-menu-links {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 0;
+  flex: 1;
+}
+
+.mobile-menu-links a {
+  display: block;
+  padding: 16px 28px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(245, 241, 232, 0.75);
+  letter-spacing: 0.02em;
+  transition: all var(--transition);
+  border-left: 3px solid transparent;
+}
+
+.mobile-menu-links a:hover {
+  color: var(--cream);
+  background: rgba(245, 241, 232, 0.04);
+  border-left-color: var(--warm-gold);
+  padding-left: 32px;
+}
+
+.mobile-menu-footer {
+  padding: 20px 24px;
+  border-top: 1px solid rgba(245, 241, 232, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mobile-menu-wa-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 20px;
+  background: #25D366;
+  color: #fff;
+  border-radius: var(--radius-pill);
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: all var(--transition);
+}
+
+.mobile-menu-wa-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: #fff;
+}
+
+.mobile-menu-wa-btn:hover {
+  background: #1ebd5a;
+  transform: none;
+  filter: none;
+}
+
+.mobile-menu-book-btn {
+  width: 100%;
+  text-align: center;
+  padding: 14px 20px !important;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
   .tour-card {
@@ -1977,12 +2134,40 @@ ul, ol {
 }
 
 @media (max-width: 768px) {
+  /* Show hamburger, hide desktop nav links + CTA buttons (they're in the drawer) */
   .nav-links {
     display: none;
   }
 
+  .hamburger-btn {
+    display: flex;
+  }
+
+  .nav-right .btn-book-now,
+  .nav-right .btn-whatsapp {
+    display: none;
+  }
+
+  .header-inner {
+    padding: 0 16px;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  .hero {
+    height: 75vh;
+    min-height: 460px;
+  }
+
   .hero-brand {
     font-size: 2.8rem;
+  }
+
+  .hero-subtext {
+    font-size: 0.82rem;
+    padding: 0 12px;
   }
 
   .search-bar {
@@ -2003,6 +2188,23 @@ ul, ol {
   .search-btn {
     width: 100%;
     text-align: center;
+  }
+
+  .search-widget {
+    margin-top: -24px;
+  }
+
+  /* Custom calendar on mobile */
+  .custom-calendar {
+    min-width: 260px;
+    padding: 16px;
+    left: 0;
+    transform: translateX(0);
+  }
+
+  @keyframes calFadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   .tour-card {
@@ -2030,6 +2232,71 @@ ul, ol {
     flex: 0 0 85%;
   }
 
+  /* Section spacing mobile */
+  .section-special {
+    padding: 50px 0 40px;
+  }
+
+  .section-header {
+    margin-bottom: 24px;
+  }
+
+  .section-header h2 {
+    font-size: 1.5rem;
+  }
+
+  /* Why Us */
+  .why-us-section {
+    padding: 50px 0;
+  }
+
+  .why-us-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .why-us-card {
+    padding: 24px 16px;
+  }
+
+  .why-us-card h3 {
+    font-size: 1rem;
+  }
+
+  .why-us-card p {
+    font-size: 0.82rem;
+  }
+
+  /* About */
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .about-title {
+    font-size: 1.6rem;
+  }
+
+  .about-section {
+    padding: 56px 0;
+  }
+
+  /* FAQ */
+  .faq-section {
+    padding: 40px 16px;
+  }
+
+  .faq-question {
+    padding: 16px 18px;
+    font-size: 0.95rem;
+  }
+
+  .faq-answer-inner {
+    padding: 0 18px 16px;
+    font-size: 0.88rem;
+  }
+
+  /* Contact */
   .contact-section {
     padding: 60px 0 48px;
   }
@@ -2047,6 +2314,42 @@ ul, ol {
     gap: 0;
   }
 
+  .contact-header {
+    margin-bottom: 36px;
+  }
+
+  .contact-eyebrow::before,
+  .contact-eyebrow::after {
+    width: 24px;
+  }
+
+  /* Destination Spotlight */
+  .destination-section {
+    min-height: 400px;
+  }
+
+  .destination-inner {
+    padding: 40px 16px;
+  }
+
+  .destination-info h2 {
+    font-size: 1.8rem;
+  }
+
+  .destination-desc {
+    font-size: 0.82rem;
+  }
+
+  .destination-links {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .destination-map-area {
+    min-height: 180px;
+  }
+
+  /* Footer */
   .footer-grid {
     grid-template-columns: 1fr;
     gap: 28px;
@@ -2055,11 +2358,33 @@ ul, ol {
   .footer-grid .footer-col:first-child {
     margin-bottom: 8px;
   }
+
+  .footer {
+    padding: 40px 0 0;
+  }
+
+  /* Newsletter modal */
+  .newsletter-modal {
+    padding: 36px 24px;
+  }
+
+  .newsletter-content h2 {
+    font-size: 1.4rem;
+  }
 }
 
 @media (max-width: 480px) {
   .hero-brand {
     font-size: 2.2rem;
+  }
+  
+  .hero-subtext {
+    font-size: 0.78rem;
+    max-width: 100%;
+  }
+
+  .eyebrow {
+    font-size: 0.62rem;
   }
   
   .stats-grid {
@@ -2075,11 +2400,110 @@ ul, ol {
   }
 
   .contact-title {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
+  }
+
+  .contact-subtitle {
+    font-size: 0.84rem;
+  }
+
+  .contact-form-card {
+    padding: 18px;
   }
 
   .socials-row {
     flex-wrap: wrap;
+  }
+
+  /* Why Us - stack on very small screens */
+  .why-us-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .why-us-card {
+    flex-direction: row;
+    text-align: left;
+    gap: 16px;
+    padding: 18px 16px;
+  }
+
+  .why-us-icon {
+    margin-bottom: 0;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+  }
+
+  .why-us-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* About features */
+  .about-features-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .about-feature {
+    padding: 14px 12px;
+  }
+
+  .about-title {
+    font-size: 1.35rem;
+  }
+
+  /* Destination */
+  .destination-info h2 {
+    font-size: 1.5rem;
+  }
+
+  .btn-choose-tour {
+    font-size: 0.68rem;
+    padding: 10px 22px;
+  }
+
+  /* Logo shrink */
+  .logo {
+    font-size: 1.15rem;
+  }
+
+  /* Search */
+  .search-bar {
+    padding: 10px;
+  }
+
+  .search-btn {
+    padding: 12px 20px;
+    font-size: 0.65rem;
+  }
+
+  /* Section header */
+  .section-header h2 {
+    font-size: 1.3rem;
+  }
+
+  .all-tours-link {
+    font-size: 0.75rem;
+  }
+
+  /* Footer */
+  .footer-brand {
+    font-size: 1.1rem;
+  }
+
+  .footer-col-title {
+    font-size: 0.85rem;
+  }
+
+  /* Newsletter */
+  .newsletter-modal {
+    padding: 28px 18px;
+  }
+
+  .newsletter-content h2 {
+    font-size: 1.25rem;
   }
 }
 
@@ -3066,6 +3490,7 @@ ul, ol {
 @media (max-width: 900px) {
   .td-main {
     grid-template-columns: 1fr;
+    overflow: hidden;
   }
   .td-sidebar {
     position: static;
@@ -3078,6 +3503,16 @@ ul, ol {
   }
   .td-full-image {
     max-height: 260px;
+  }
+  .td-content {
+    min-width: 0;
+    overflow: hidden;
+  }
+  .td-sidebar-card {
+    max-width: 100%;
+  }
+  .td-split-image {
+    max-width: 100%;
   }
 }
 
